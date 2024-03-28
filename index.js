@@ -42,6 +42,18 @@ app.put("/api/data/:id", (req, res) => {
   }
 });
 
+// Route untuk menghapus data berdasarkan ID
+app.delete('/api/data/:id', (req, res) => {
+  const id = req.params.id;
+  const dataIndex = data.findIndex(item => item.id === id);
+  if (dataIndex === -1) {
+      res.status(404).send('Data tidak ditemukan.');
+  } else {
+      data.splice(dataIndex, 1);
+      res.send('Data berhasil dihapus.');
+  }
+});
+
 app.listen(PORT, () => {
   console.log("Server berjalan di http://localhost:${PORT}");
 });
