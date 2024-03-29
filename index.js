@@ -33,26 +33,29 @@ app.get("/api/data/:id", (req, res) => {
 app.put("/api/data/:id", (req, res) => {
   const id = req.params.id;
   const newData = req.body;
-  const dataIndex = data.findIndex((item) => item.id === id);
+  const dataIndex = data.findIndex((item) => item.id === parseInt(id));
   if (dataIndex === -1) {
     res.status(404).send("Data tidak ditemukan.");
   } else {
-    data[dataIndex] = newData;
+    // Menggunakan Object.assign untuk mengganti data tanpa mengubah referensi array
+    data[dataIndex] = Object.assign(data[dataIndex], newData);
     res.send("Data berhasil diperbarui.");
   }
 });
 
+
 // Route untuk menghapus data berdasarkan ID
-app.delete("/api/data/:id", (req, res) => {
+app.delete('/api/data/:id', (req, res) => {
   const id = req.params.id;
-  const dataIndex = data.findIndex((item) => item.id === id);
+  const dataIndex = data.findIndex(item => item.id === parseInt(id));
   if (dataIndex === -1) {
-    res.status(404).send("Data tidak ditemukan.");
+      res.status(404).send('Data tidak ditemukan.');
   } else {
-    data.splice(dataIndex, 1);
-    res.send("Data berhasil dihapus.");
+      data.splice(dataIndex, 1);
+      res.send('Data berhasil dihapus.');
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);
